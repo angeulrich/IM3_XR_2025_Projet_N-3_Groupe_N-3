@@ -96,41 +96,46 @@
         ></a-text>
       </a-entity>
 
-      <a-entity id="penseur" position="-2 2 -6">
-        <a-image
-          src="assets/lepenseur.jpg"
-          width="2"
-          height="3"
-          class="clickable"
-        ></a-image>
+      <a-entity
+        id="penseur"
+        gltf-model="assets/penseur.glb"
+        position="-1.80308 0.44378 -4"
+        scale=""
+        debug=""
+      >
         <a-text
           id="info3"
           value="Le Penseur..."
-          position="0 -1.8 0"
+          position="0 -0.21586 0"
           align="center"
           width="2.5"
           wrap-count="40"
           visible="false"
           color="black"
-        ></a-text>
+          text=""
+        >
+        </a-text>
       </a-entity>
 
-      <a-entity id="porteEnfer" position="2 2 -6">
+      <a-entity id="porteEnfer" position="2.43988 2 -3.95698" scale="">
         <a-image
           src="assets/porteenfer.jpg"
           width="2"
           height="3"
           class="clickable"
+          material=""
+          geometry=""
         ></a-image>
         <a-text
           id="info4"
           value="La Porte de l'Enfer..."
-          position="0 -1.8 0"
+          position="0.29652 -1.8 -0.26819"
           align="center"
           width="2.5"
           wrap-count="40"
           visible="false"
           color="black"
+          text=""
         ></a-text>
       </a-entity>
 
@@ -143,7 +148,7 @@
         ></a-image>
         <a-text
           id="info5"
-          value="La Pietà..."
+          value="La Pietà De Michel Ange"
           position="0 -1.8 0"
           align="center"
           width="2.5"
