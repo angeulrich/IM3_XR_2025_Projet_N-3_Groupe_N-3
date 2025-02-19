@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galerie WebXR Interactive</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-entity id="rig" movement-controls>
+        <a-camera position="0 1.6 0">
+          <a-cursor color="red"></a-cursor>
+        </a-camera>
+      </a-entity>
+
+      <!--Espace d'exposition en 3D avec plusieurs oeuvres -->
+      <a-plane
+        position="0 0 0"
+        rotation="-90 0 0"
+        width="20"
+        height="20"
+        color="#555555"
+      ></a-plane>
+      <a-box
+        position="-10 2 -5"
+        width="0.1"
+        height="4"
+        depth="10"
+        color="#D9D9D9"
+      ></a-box>
+      <a-box
+        position="10 2 -5"
+        width="0.1"
+        height="4"
+        depth="10"
+        color="#D9D9D9"
+      ></a-box>
+      <a-box
+        position="0 2 -10"
+        width="20"
+        height="4"
+        depth="0.1"
+        color="#8C8C8C"
+      ></a-box>
+      <a-box
+        position="0 4 -5"
+        width="20"
+        height="0.1"
+        depth="10"
+        color="#F5F5DC"
+      ></a-box>
+
+      <a-light
+        type="point"
+        position="0 3 -5"
+        intensity="1.2"
+        color="#FFD700"
+      ></a-light>
+
+      <a-entity id="art1" position="-6 2 -5">
+        <a-image
+          src="assets/joconde.jpg"
+          width="2"
+          height="3"
+          class="clickable"
+        ></a-image>
+        <a-text
+          id="info1"
+          value="Mona Lisa..."
+          position="0 -1.8 0"
+          align="center"
+          width="2.5"
+          wrap-count="40"
+          visible="false"
+          color="black"
+        ></a-text>
+      </a-entity>
+
+      <a-entity id="art2" position="6 2 -5">
+        <a-image
+          src="assets/nuit_etoilee.jpg"
+          width="2"
+          height="3"
+          class="clickable"
+        ></a-image>
+        <a-text
+          id="info2"
+          value="La Nuit étoilée..."
+          position="0 -1.8 0"
+          align="center"
+          width="2.5"
+          wrap-count="40"
+          visible="false"
+          color="black"
+        ></a-text>
+      </a-entity>
+
+      <a-entity id="penseur" position="-2 2 -6">
+        <a-image
+          src="assets/lepenseur.jpg"
+          width="2"
+          height="3"
+          class="clickable"
+        ></a-image>
+        <a-text
+          id="info3"
+          value="Le Penseur..."
+          position="0 -1.8 0"
+          align="center"
+          width="2.5"
+          wrap-count="40"
+          visible="false"
+          color="black"
+        ></a-text>
+      </a-entity>
+
+      <a-entity id="porteEnfer" position="2 2 -6">
+        <a-image
+          src="assets/porteenfer.jpg"
+          width="2"
+          height="3"
+          class="clickable"
+        ></a-image>
+        <a-text
+          id="info4"
+          value="La Porte de l'Enfer..."
+          position="0 -1.8 0"
+          align="center"
+          width="2.5"
+          wrap-count="40"
+          visible="false"
+          color="black"
+        ></a-text>
+      </a-entity>
+
+      <a-entity id="imagePieta" position="0 2 -8">
+        <a-image
+          src="assets/pieta.jpg"
+          width="2"
+          height="3"
+          class="clickable"
+        ></a-image>
+        <a-text
+          id="info5"
+          value="La Pietà..."
+          position="0 -1.8 0"
+          align="center"
+          width="2.5"
+          wrap-count="40"
+          visible="false"
+          color="black"
+        ></a-text>
+      </a-entity>
+
+      <!--Audioguide -->
+      <a-entity
+        id="audio1"
+        sound="src: audio/monalisa.mp3; autoplay: false"
+      ></a-entity>
+      <a-entity
+        id="audio2"
+        sound="src: audio/lanuit.mp3; autoplay: false"
+      ></a-entity>
+      <a-entity
+        id="audio3"
+        sound="src: audio/penseur.mp3; autoplay: false"
+      ></a-entity>
+      <a-entity
+        id="audio4"
+        sound="src: audio/porte.mp3; autoplay: false"
+      ></a-entity>
+      <a-entity
+        id="audio5"
+        sound="src: audio/pieta.mp3; autoplay: false"
+      ></a-entity>
+
+      <a-entity laser-controls="hand: right"></a-entity>
+      <a-entity teleport-controls="collisionEntities: #floor"></a-entity>
+
+      <a-sky color="#ECECEC"></a-sky>
+    </a-scene>
+
+    <!--Les interactions -->
+    <script>
+      function toggleZoom(element) {
+        let scale = element.getAttribute("scale");
+        if (!scale || scale.x === 1) {
+          element.setAttribute("scale", { x: 1.5, y: 1.5, z: 1.5 });
+        } else {
+          element.setAttribute("scale", { x: 1, y: 1, z: 1 });
+        }
+      }
+
+      function showInfo(infoId) {
+        document.querySelector(infoId).setAttribute("visible", true);
+      }
+
+      function hideInfo(infoId) {
+        document.querySelector(infoId).setAttribute("visible", false);
+      }
+
+      function playAudio(audioId) {
+        let audio = document.querySelector(audioId);
+        if (audio.components.sound.isPlaying) {
+          audio.components.sound.stopSound();
+        }
+        audio.components.sound.playSound();
+      }
+
+      function setupInteractions(id, audioId, infoId) {
+        let element = document.querySelector(id);
+        element.addEventListener("click", function () {
+          toggleZoom(this);
+          playAudio(audioId);
+        });
+        element.addEventListener("mouseenter", function () {
+          showInfo(infoId);
+        });
+        element.addEventListener("mouseleave", function () {
+          hideInfo(infoId);
+        });
+      }
+
+      setupInteractions("#art1", "#audio1", "#info1");
+      setupInteractions("#art2", "#audio2", "#info2");
+      setupInteractions("#penseur", "#audio3", "#info3");
+      setupInteractions("#porteEnfer", "#audio4", "#info4");
+      setupInteractions("#imagePieta", "#audio5", "#info5");
+    </script>
+  </body>
+</html>
